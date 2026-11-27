@@ -1,4 +1,4 @@
-# LHDC Enabler by prithick (Android 17 Universal LHDC V5)
+# LHDC Enabler (Android 17 Universal LHDC V5) by Prithick
 
 A universal **Magisk** module for **Android 17 (SDK 37, ARM64) only** that enables native **LHDC V5** Bluetooth audio encoding up to **192 kHz / 24-bit** and **1000 kbps** using AOSP's built-in Rust LHDC V5 software encoder (`lhdcv5BT_enc`).
 
@@ -52,7 +52,7 @@ adb shell "su -c 'logcat -b all -d | grep -i -E \"lhdcv5|StartSession|openOutput
 ```
 
 ## License
-Licensed under the [MIT License](LICENSE) — Copyright (c) 2026 **prithick**.
+Licensed under the [MIT License](LICENSE) — Copyright (c) 2026.
 
 ## Disclaimer
 Use at your own risk. If Bluetooth ever fails to start after a ROM or APEX update, disable or remove the module in Magisk and reboot.

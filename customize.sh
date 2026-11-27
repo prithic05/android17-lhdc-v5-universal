@@ -7,7 +7,7 @@ LATESTARTSERVICE=true
 . "$MODPATH/lib/patch_elf.sh"
 
 ui_print "**********************************************"
-ui_print "        LHDC Enabler by prithick"
+ui_print "        LHDC Enabler by Prithick"
 ui_print "   Android 17 Universal LHDC V5 (192kHz)"
 ui_print "**********************************************"
 
