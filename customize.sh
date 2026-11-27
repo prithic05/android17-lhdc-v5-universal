@@ -7,7 +7,8 @@ LATESTARTSERVICE=true
 . "$MODPATH/lib/patch_elf.sh"
 
 ui_print "**********************************************"
-ui_print " LHDC V5 192kHz Universal Enabler (Android 17)"
+ui_print "        LHDC Enabler by prithick"
+ui_print "   Android 17 Universal LHDC V5 (192kHz)"
 ui_print "**********************************************"
 
 ARCH=$(getprop ro.product.cpu.abi)

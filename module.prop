@@ -2,5 +2,5 @@ id=android17-lhdc-v5-universal
 name=LHDC V5 192kHz Universal Enabler (Android 17)
 version=v1.0.0
 versionCode=10000
-author=Prithick
+author=prithick
 description=Dynamically patches Android 17 Bluetooth stack & vendor AIDL audio HAL to enable native LHDC V5 at 192kHz/24-bit (default 500kbps). Includes Magisk Action button & lhdc-mode CLI.
