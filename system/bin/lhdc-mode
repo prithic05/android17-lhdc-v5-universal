@@ -1,0 +1,54 @@
+#!/system/bin/sh
+MODDIR="/data/adb/modules/android17-lhdc-v5-universal"
+LIB="$MODDIR/files/libbluetooth_jni.so"
+CONF="$MODDIR/quality_patch.conf"
+STATE="$MODDIR/current_mode"
+
+if [ ! -f "$LIB" ] || [ ! -f "$CONF" ]; then
+    echo "ERR: Module files not found in $MODDIR (did you reboot after installing?)"
+    exit 1
+fi
+
+. "$CONF"
+cur=$(cat "$STATE" 2>/dev/null || echo "500")
+
+case "$1" in
+    500)  IMM=$((0x529000c0 + QUALITY_REG)); LABEL="500" ;;
+    900)  IMM=$((0x529000e0 + QUALITY_REG)); LABEL="900" ;;
+    1000) IMM=$((0x52900100 + QUALITY_REG)); LABEL="1000" ;;
+    abr|ABR) IMM=$((0x52900120 + QUALITY_REG)); LABEL="abr" ;;
+    next)
+        case "$cur" in
+            500)  exec "$0" 900 ;;
+            900)  exec "$0" 1000 ;;
+            *)    exec "$0" 500 ;;
+        esac
+        ;;
+    ""|status)
+        echo "Current LHDC V5 default mode: ${cur} (192kHz / 24-bit)"
+        echo "Usage: su -c lhdc-mode [500|900|1000|abr|next]"
+        exit 0
+        ;;
+    *)
+        echo "Unknown mode: $1"
+        echo "Usage: su -c lhdc-mode [500|900|1000|abr|next]"
+        exit 1
+        ;;
+esac
+
+HEX=$(printf "%08x" "$IMM")
+B3=$(echo "$HEX" | cut -c1-2)
+B2=$(echo "$HEX" | cut -c3-4)
+B1=$(echo "$HEX" | cut -c5-6)
+B0=$(echo "$HEX" | cut -c7-8)
+
+echo "Switching LHDC V5 to ${LABEL}..."
+printf "\\x${B0}\\x${B1}\\x${B2}\\x${B3}" | dd of="$LIB" bs=1 seek="$QUALITY_OFF" count=4 conv=notrunc 2>/dev/null
+echo "$LABEL" > "$STATE"
+
+cmd bluetooth_manager disable >/dev/null 2>&1
+sleep 2
+killall com.android.bluetooth 2>/dev/null || true
+sleep 2
+cmd bluetooth_manager enable >/dev/null 2>&1
+echo "Done! LHDC V5 is now set to ${LABEL} (192kHz / 24-bit)."

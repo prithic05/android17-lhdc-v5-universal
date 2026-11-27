@@ -1,0 +1,3 @@
+*.zip
+*.so
+__pycache__/
